@@ -68,16 +68,29 @@ Status insererEnTete(Liste *liste, const Info *info) {
     return OK;
 }
 
-size_t longueur(const Liste* liste)
-{
-    Element * courant = liste->tete;
+Status insererEnQueue(Liste *liste, const Info *info) {
+    Element *courant = liste->queue;
+    if (!courant) return MEMOIRE_INSUFFISANTE;
 
-    if(!courant) return 0;
+    if (longueur(liste) == 1) {
+        liste->queue = courant;
+    }
+
+    courant->info = *info;
+    courant->suivant = liste->queue;
+
+
+    return OK;
+}
+
+size_t longueur(const Liste *liste) {
+    Element *courant = liste->tete;
+
+    if (!courant) return 0;
 
     size_t longueur = 1;
 
-    while(!courant->suivant)
-    {
+    while (!courant->suivant) {
         courant = courant->suivant;
         longueur++;
     }
