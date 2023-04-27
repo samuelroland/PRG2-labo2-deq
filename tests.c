@@ -4,4 +4,6 @@
 
 int main() {
 	Liste *liste = initialiser();
+	afficher(liste, FORWARD);
+	afficher(liste, BACKWARD);
 }
