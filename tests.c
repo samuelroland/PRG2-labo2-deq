@@ -3,5 +3,5 @@
 // tests ici
 
 int main() {
-	
+	Liste *liste = initialiser();
 }
