@@ -54,3 +54,19 @@ Status insererEnTete(Liste *liste, const Info *info) {
 
     return OK;
 }
+
+size_t longueur(const Liste* liste)
+{
+    Element * courant = liste->tete;
+
+    if(!courant) return 0;
+
+    size_t longueur = 1;
+
+    while(!courant->suivant)
+    {
+        courant = courant->suivant;
+        longueur++;
+    }
+    return longueur;
+}
