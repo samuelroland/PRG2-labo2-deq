@@ -1,5 +1,18 @@
 #include "../include/listes_dynamiques.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+Liste *initialiser(void) {
+    Liste *ptr = (Liste *) calloc(1, sizeof(Liste));
+    if (!ptr) return NULL;
+    ptr->tete = NULL;
+    ptr->queue = NULL;
+    return ptr;
+}
+
+bool estVide(const Liste *liste) {
+    return longueur(liste) == 0;
+}
 
 void afficher(const Liste *liste, Mode mode) {
 
