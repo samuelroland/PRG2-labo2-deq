@@ -14,6 +14,20 @@ bool estVide(const Liste *liste) {
     return longueur(liste) == 0;
 }
 
+size_t longueur(const Liste *liste) {
+    Element *courant = liste->tete;
+
+    if (!courant) return 0;
+
+    size_t longueur = 1;
+
+    while (!courant->suivant) {
+        courant = courant->suivant;
+        longueur++;
+    }
+    return longueur;
+}
+
 void afficher(const Liste *liste, Mode mode) {
 
     if (estVide(liste)) {
@@ -24,7 +38,7 @@ void afficher(const Liste *liste, Mode mode) {
     if (mode == FORWARD) {
         Element *courant = liste->tete;
         printf("[");
-        for (size_t i = 0; i < longueur(liste); ++i) {
+        while (!courant) {
             printf("%d", courant->info);
             courant = courant->suivant;
         }
@@ -33,23 +47,13 @@ void afficher(const Liste *liste, Mode mode) {
     } else {
         Element *courant = liste->queue;
         printf("[");
-        for (size_t i = longueur(liste); i > 0; --i) {
+        while (!courant) {
             printf("%d", courant->info);
             courant = courant->precedent;
         }
         printf("]");
 
     }
-}
-
-
-#include <stdlib.h>
-
-Liste *initialiser(void) {
-    Liste *ptr = (Liste *) calloc(1, sizeof(Liste));
-    (*ptr).tete = NULL;
-    (*ptr).queue = NULL;
-    return ptr;
 }
 
 Status insererEnTete(Liste *liste, const Info *info) {
@@ -69,30 +73,26 @@ Status insererEnTete(Liste *liste, const Info *info) {
 }
 
 Status insererEnQueue(Liste *liste, const Info *info) {
-    Element *courant = liste->queue;
+    //vérifier si la tableau est vide ou non
+    //vérifier si la capacité permet un élément de plus
+    //return mémoire insuffisante
+    //pointer sur le dernier élément
+    //insérer l'élément suivant.
+    //return OK
+    Element *courant = (Element *) calloc(1, sizeof(Element));
+
     if (!courant) return MEMOIRE_INSUFFISANTE;
 
-    if (longueur(liste) == 1) {
-        liste->queue = courant;
+    if (longueur(liste) == 0) {
+        liste->tete = courant;
     }
 
+    liste->queue = courant;
     courant->info = *info;
+    courant = courant->precedent;
     courant->suivant = liste->queue;
-
 
     return OK;
 }
 
-size_t longueur(const Liste *liste) {
-    Element *courant = liste->tete;
 
-    if (!courant) return 0;
-
-    size_t longueur = 1;
-
-    while (!courant->suivant) {
-        courant = courant->suivant;
-        longueur++;
-    }
-    return longueur;
-}
