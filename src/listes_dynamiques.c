@@ -43,23 +43,22 @@ void afficher(const Liste* liste, Mode mode) {
 }
 
 Status insererEnTete(Liste* liste, const Info* info) {
-	Element* ptr = (Element*) calloc(1, sizeof(Element));
+	Element* courant = (Element*) calloc(1, sizeof(Element));
 
-	if (!ptr) return MEMOIRE_INSUFFISANTE;
+	if (!courant) return MEMOIRE_INSUFFISANTE;
 
 	//Si la liste n'a pas de queue, la liste est vide
 	// l'élément qu'on vient d'insérer est également la fin de la liste
-	if (liste->queue == NULL) liste->queue = ptr;
+	if (liste->queue == NULL) liste->queue = courant;
 
-	ptr->info = *info;
+	courant->info = *info;
 	//Si la liste a déjà une tête, donc qu'il y a au moins un élément existant
-	// il faut indiquer au premier maillon que le maillon précédent est le nouveau
+	// il faut lier les 2 premiers maillons (l'existant et le nouveau)
 	if (liste->tete) {
-		ptr->suivant = liste->tete;
-		ptr->suivant->precedent = ptr;
+		courant->suivant = liste->tete;
+		courant->suivant->precedent = courant;
 	}
-	ptr->precedent = NULL;
-	liste->tete = ptr;
+	liste->tete = courant;
 
 	return OK;
 }
@@ -75,12 +74,16 @@ Status insererEnQueue(Liste* liste, const Info* info) {
 
 	if (!courant) return MEMOIRE_INSUFFISANTE;
 
-	if (longueur(liste) == 0) { liste->tete = courant; }
+	if (liste->tete == NULL) { liste->tete = courant; }
 
-	liste->queue = courant;
 	courant->info = *info;
-	courant = courant->precedent;
-	courant->suivant = liste->queue;
+	//Si la liste a déjà une queue, donc qu'il y a au moins un élément existant
+	// il faut lier les 2 derniers maillons (l'existant et le nouveau)
+	if (liste->queue) {
+		courant->precedent = liste->queue;
+		courant->precedent->suivant = courant;
+	}
+	liste->queue = courant;
 
 	return OK;
 }
