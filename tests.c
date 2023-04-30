@@ -3,10 +3,10 @@
 // tests ici
 
 int main() {
-	Liste *liste = initialiser();
+	Liste* liste = initialiser();
 	afficher(liste, FORWARD);
 	afficher(liste, BACKWARD);
-    insererEnTete(liste, (const Info *) 4);
-    size_t taille = longueur(liste);
-    printf("%d",(unsigned)taille);
+	insererEnTete(liste, (const Info*) 4);
+	size_t taille = longueur(liste);
+	printf("%d", (unsigned) taille);
 }
