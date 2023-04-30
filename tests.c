@@ -115,13 +115,13 @@ int main(void) {
 	vider(liste4, 22);//vider au dela de la taille
 	afficherForward(liste4);
 	//liste4 n'a pas changé -> toujours égal à liste3 :
-	// assert(sontEgales(liste3, liste4));
+	assert(sontEgales(liste3, liste4));
 	vider(liste4, 15);//vider la fin de la liste4
 	afficherForward(liste4);
 	assert(liste4->queue->info == 14);
-	// assert(sontEgales(liste3, liste4) == false);
-	// vider(liste4, 0);//vider tout
-	// assert(estVide(liste4));
+	assert(sontEgales(liste3, liste4) == false);
+	vider(liste4, 0);//vider tout
+	assert(estVide(liste4));
 	afficherForward(liste4);
 
 	//Tests supprimerSelonCritere
@@ -135,6 +135,18 @@ int main(void) {
 	assert(liste3->queue->info == 19);
 	assert(longueur(liste3) == 8);
 	afficherForward(liste3);
+
+	printf("\nTests supprimerSelonCritere() qui vide complètement la pile\n");
+	Liste* liste5 = initialiser();
+	insererEnQueue(liste5, &chiffres[3]);
+	supprimerSelonCritere(liste5, &critere1);
+	assert(estVide(liste5));
+	Liste* liste6 = initialiser();
+	insererEnQueue(liste6, &chiffres[3]);
+	insererEnQueue(liste6, &chiffres[5]);
+	supprimerSelonCritere(liste6, &critere1);
+	assert(estVide(liste5));
+
 
 	printf("\nTous les tests passent !\n\n");
 }
