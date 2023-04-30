@@ -24,20 +24,14 @@ size_t longueur(const Liste* liste) {
 
 void afficher(const Liste* liste, Mode mode) {
 	printf("[");
-	if (mode == FORWARD) {
-		Element* courant = liste->tete;
-		while (courant) {
-			printf("%d", courant->info);
-			courant = courant->suivant;
-			if (courant) printf(",");
-		}
-	} else {
-		Element* courant = liste->queue;
-		while (courant) {
-			printf("%d", courant->info);
-			courant = courant->precedent;
-			if (courant) printf(",");
-		}
+	//Prendre le premier ou dernier élément
+	Element* courant = (mode == FORWARD) ? liste->tete : liste->queue;
+	//Parcours tous les éléments dans un sens donné par mode,
+	// et s'arrête quand il n'y a plus d'élément
+	while (courant) {
+		printf("%d", courant->info);
+		courant = (mode == FORWARD) ? courant->suivant : courant->precedent;
+		if (courant) printf(",");//affiche une virgule sauf pour le dernier élément
 	}
 	printf("]\n");
 }
