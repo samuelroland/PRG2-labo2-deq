@@ -10,7 +10,9 @@ Liste* initialiser(void) {
 	return ptr;
 }
 
-bool estVide(const Liste* liste) { return longueur(liste) == 0; }
+bool estVide(const Liste* liste) {
+	return liste->tete == NULL && liste->queue == NULL;
+}
 
 size_t longueur(const Liste* liste) {
 	Element* courant = liste->tete;
@@ -106,8 +108,50 @@ Status supprimerEnQueue(Liste* liste, Info* info) {
 
 void supprimerSelonCritere(Liste* liste,
 									bool (*critere)(size_t position, const Info* info)) {
-	// TODO
+	//Ne rien faire si la liste est déjà vide
+	if (!liste->tete) return;
+
+	Element* courant = liste->tete;
+	size_t index = 0;
+
+	while (courant) {
+		//Si l'élément passe le critère, il doit être supprimé
+		if (critere(index, &courant->info)) {
+			//On a maintenant 3 cas à gérer:
+			// courant est le premier maillon
+			if (index == 0) {
+				//S'il n'y a pas d'élément suivant, la pile sera vide
+				if (!courant->suivant) {
+					liste->tete = NULL;
+					liste->queue = NULL;
+				} else {
+					liste->tete = courant->suivant;
+					courant->suivant->precedent = NULL;
+				}
+
+			} else if (courant->suivant) {
+				// courant n'est ni le premier ni le dernier maillon
+
+			} else {
+				// courant est le dernier maillon
+			}
+			//Délier le maillon précédent s'il existe, du maillon courant
+			if (courant->precedent) courant->precedent->suivant = NULL;
+			//Idem pour le maillon suivant
+			if (courant->suivant) courant->suivant->precedent = NULL;
+
+			//
+			Element* prochain = courant->suivant;
+			free(courant);
+			courant = prochain;
+		} else {
+			courant = courant->suivant;
+			//Sinon on passe juste à l'élément suivant
+		}
+		index++;
+	}
 }
+
 void vider(Liste* liste, size_t position) {
 	//Ne rien faire si la liste est déjà vide
 	if (!liste->tete) return;
@@ -127,16 +171,38 @@ void vider(Liste* liste, size_t position) {
 			//De plus si position=0, il faut changer la tête:
 			if (position == 0) {
 				liste->tete = NULL;
-				//La queue de la liste sera null à ce moment, pas besoin de le refaire
+				//La queue de la liste sera NULL à ce moment,
+				// pas besoin de a remettre à NULL
+			} else {
+				//S'il y a des éléments avant, définir le dernier maillon comme NULL
+				courant->precedent->suivant = NULL;
 			}
 		}
 		Element* prochain = courant->suivant;
 		free(courant);
+		if (prochain) prochain->precedent = NULL;//TODO: est-ce utile ?
 		courant = prochain;
 		index++;
 	}
 }
 
 bool sontEgales(const Liste* liste1, const Liste* liste2) {
-	// TODO
+	Element *courant1 = liste1->tete, *courant2 = liste2->tete;
+
+	while (courant1 || courant2) {
+		//Si l'un des pointeurs est vide, une des listes est plus courte que l'autre
+		// elles ne sont donc pas égales !
+		if ((!courant1 && courant2) || (courant1 && !courant2)) { return false; }
+
+		//Compare les 2 valeurs sur le maillon courant des 2 listes
+		if (courant1->info != courant2->info) {
+			return false;
+			break;
+		}
+		courant1 = courant1->suivant;
+		courant2 = courant2->suivant;
+	}
+	//Si on arrive ici, toutes les valeurs sont bien identiques
+	// et les 2 listes ont la même longueur
+	return true;
 }
