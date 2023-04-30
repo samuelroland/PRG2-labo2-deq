@@ -14,7 +14,6 @@ bool estVide(const Liste* liste) { return longueur(liste) == 0; }
 
 size_t longueur(const Liste* liste) {
 	Element* courant = liste->tete;
-
 	size_t longueur = 0;
 	while (courant) {
 		longueur++;
@@ -24,8 +23,6 @@ size_t longueur(const Liste* liste) {
 }
 
 void afficher(const Liste* liste, Mode mode) {
-
-
 	printf("[");
 	if (mode == FORWARD) {
 		Element* courant = liste->tete;
@@ -34,7 +31,6 @@ void afficher(const Liste* liste, Mode mode) {
 			courant = courant->suivant;
 			if (courant) printf(",");
 		}
-
 	} else {
 		Element* courant = liste->queue;
 		while (courant) {
@@ -47,15 +43,21 @@ void afficher(const Liste* liste, Mode mode) {
 }
 
 Status insererEnTete(Liste* liste, const Info* info) {
-
 	Element* ptr = (Element*) calloc(1, sizeof(Element));
 
 	if (!ptr) return MEMOIRE_INSUFFISANTE;
 
-	if (longueur(liste) == 1) liste->queue = ptr;
+	//Si la liste n'a pas de queue, la liste est vide
+	// l'élément qu'on vient d'insérer est également la fin de la liste
+	if (liste->queue == NULL) liste->queue = ptr;
 
 	ptr->info = *info;
-	ptr->suivant = liste->tete;
+	//Si la liste a déjà une tête, donc qu'il y a au moins un élément existant
+	// il faut indiquer au premier maillon que le maillon précédent est le nouveau
+	if (liste->tete) {
+		ptr->suivant = liste->tete;
+		ptr->suivant->precedent = ptr;
+	}
 	ptr->precedent = NULL;
 	liste->tete = ptr;
 
