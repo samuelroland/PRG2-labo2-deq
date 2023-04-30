@@ -25,29 +25,25 @@ size_t longueur(const Liste* liste) {
 
 void afficher(const Liste* liste, Mode mode) {
 
-	if (estVide(liste)) {
-		printf("[]");
-		return;
-	}
 
+	printf("[");
 	if (mode == FORWARD) {
 		Element* courant = liste->tete;
-		printf("[");
-		while (!courant) {
+		while (courant) {
 			printf("%d", courant->info);
 			courant = courant->suivant;
+			if (courant) printf(",");
 		}
-		printf("]");
 
 	} else {
 		Element* courant = liste->queue;
-		printf("[");
-		while (!courant) {
+		while (courant) {
 			printf("%d", courant->info);
 			courant = courant->precedent;
+			if (courant) printf(",");
 		}
-		printf("]");
 	}
+	printf("]\n");
 }
 
 Status insererEnTete(Liste* liste, const Info* info) {
