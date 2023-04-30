@@ -105,6 +105,7 @@ int main(void) {
 	//Créer et initialiser deux listes avec les nombres 0 à 19
 	Liste* liste3 = initialiser();
 	Liste* liste4 = initialiser();
+	assert(sontEgales(liste3, liste4));//2 listes vides sont égales
 	for (Info i = 0; i < 20; i++) {
 		insererEnQueue(liste3, &i);
 		insererEnQueue(liste4, &i);
@@ -139,13 +140,13 @@ int main(void) {
 	printf("\nTests supprimerSelonCritere() qui vide complètement la pile\n");
 	Liste* liste5 = initialiser();
 	insererEnQueue(liste5, &chiffres[3]);
-	supprimerSelonCritere(liste5, &critere1);
+	supprimerSelonCritere(liste5, &critere1);//un seul élément à supprimer
 	assert(estVide(liste5));
 	Liste* liste6 = initialiser();
 	insererEnQueue(liste6, &chiffres[3]);
 	insererEnQueue(liste6, &chiffres[5]);
-	supprimerSelonCritere(liste6, &critere1);
-	assert(estVide(liste5));
+	supprimerSelonCritere(liste6, &critere1);//2 éléments à supprimer
+	assert(estVide(liste6));
 
 
 	printf("\nTous les tests passent !\n\n");
