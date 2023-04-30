@@ -15,13 +15,10 @@ bool estVide(const Liste* liste) { return longueur(liste) == 0; }
 size_t longueur(const Liste* liste) {
 	Element* courant = liste->tete;
 
-	if (!courant) return 0;
-
-	size_t longueur = 1;
-
-	while (!courant->suivant) {
-		courant = courant->suivant;
+	size_t longueur = 0;
+	while (courant) {
 		longueur++;
+		courant = courant->suivant;
 	}
 	return longueur;
 }
