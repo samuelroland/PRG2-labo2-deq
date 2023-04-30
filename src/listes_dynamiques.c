@@ -105,6 +105,38 @@ Status supprimerEnQueue(Liste* liste, Info* info) {
 }
 
 void supprimerSelonCritere(Liste* liste,
-									bool (*critere)(size_t position, const Info* info)) {}
-void vider(Liste* liste, size_t position) {}
-bool sontEgales(const Liste* liste1, const Liste* liste2) {}
+									bool (*critere)(size_t position, const Info* info)) {
+	// TODO
+}
+void vider(Liste* liste, size_t position) {
+	//Ne rien faire si la liste est déjà vide
+	if (!liste->tete) return;
+
+	//Parcours la liste et supprime les valeurs une fois avoir atteint
+	// ou dépassé la position donnée
+	size_t index = 0;
+	Element* courant = liste->tete;
+	while (courant) {
+		if (index < position) {
+			courant = courant->suivant;
+			index++;
+			continue;
+		} else if (index == position) {
+			liste->queue = courant->precedent;
+
+			//De plus si position=0, il faut changer la tête:
+			if (position == 0) {
+				liste->tete = NULL;
+				//La queue de la liste sera null à ce moment, pas besoin de le refaire
+			}
+		}
+		Element* prochain = courant->suivant;
+		free(courant);
+		courant = prochain;
+		index++;
+	}
+}
+
+bool sontEgales(const Liste* liste1, const Liste* liste2) {
+	// TODO
+}
