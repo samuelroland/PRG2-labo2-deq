@@ -59,6 +59,14 @@ int main(void) {
 		assert(estVide(liste));
 	}
 
+	/// Tests affichage FORWARD et BACKWARD
+	{
+		Liste* liste = creerEtRemplirListe();
+		printf("\nAffichage BACKWARD de 'liste': ");
+		afficher(liste, BACKWARD);
+		afficherForward(liste);
+	}
+
 	/// Tests insererEnTete
 	{
 		Liste* liste = initialiser();
@@ -71,6 +79,7 @@ int main(void) {
 		assert(liste->queue->info == 4);
 		printf("insererEnTete 6\n");
 		insererEnTete(liste, &chiffres[6]);
+		assert(liste->tete->suivant != NULL);
 		afficherForward(liste);
 		assert(liste->tete->info == 6);
 		assert(liste->queue->info == 4);
@@ -81,23 +90,17 @@ int main(void) {
 		assert(longueur(liste) == 3);
 	}
 
-	/// Tests affichage FORWARD et BACKWARD
-	{
-		Liste* liste = creerEtRemplirListe();
-		printf("\nAffichage BACKWARD de 'liste': ");
-		afficher(liste, BACKWARD);
-		afficherForward(liste);
-	}
 
+	/// Tests insererEnQueue
 	{
 		Liste* liste = creerEtRemplirListe();
-		/// Tests insererEnQueue
 		printf("\nTests insererEnQueue()\n");
 		afficherForward(liste);
 		printf("insererEnQueue 7\n");
 		assert(liste->queue->info == 8);
 		assert(insererEnQueue(liste, &chiffres[7]) == OK);
 		assert(liste->queue->info == 7);
+		assert(liste->queue->precedent != NULL);
 		afficherForward(liste);
 		printf("insererEnQueue 3\n");
 		insererEnQueue(liste, &chiffres[3]);
