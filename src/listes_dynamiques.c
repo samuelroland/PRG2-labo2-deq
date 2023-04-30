@@ -117,30 +117,18 @@ void supprimerSelonCritere(Liste* liste,
 	while (courant) {
 		//Si l'élément passe le critère, il doit être supprimé
 		if (critere(index, &courant->info)) {
-			//On a maintenant 3 cas à gérer:
-			// courant est le premier maillon
-			if (index == 0) {
-				//S'il n'y a pas d'élément suivant, la pile sera vide
-				if (!courant->suivant) {
-					liste->tete = NULL;
-					liste->queue = NULL;
-				} else {
-					liste->tete = courant->suivant;
-					courant->suivant->precedent = NULL;
-				}
+			//Lier le maillon précédent s'il existe, du maillon courant, vers le maillon suivant
+			if (courant->precedent) courant->precedent->suivant = courant->suivant;
+			else
+				//Sinon il faudra définir la tête comme le prochain élément
+				liste->tete = courant->suivant;
 
-			} else if (courant->suivant) {
-				// courant n'est ni le premier ni le dernier maillon
+			//Lier le maillon suivant s'il existe, du maillon courant, vers le maillon précédent
+			if (courant->suivant) courant->suivant->precedent = courant->precedent;
+			else
+				//Sinon il faudra définir la queue comme l'élément précédent
+				liste->queue = courant->precedent;
 
-			} else {
-				// courant est le dernier maillon
-			}
-			//Délier le maillon précédent s'il existe, du maillon courant
-			if (courant->precedent) courant->precedent->suivant = NULL;
-			//Idem pour le maillon suivant
-			if (courant->suivant) courant->suivant->precedent = NULL;
-
-			//
 			Element* prochain = courant->suivant;
 			free(courant);
 			courant = prochain;
