@@ -60,12 +60,6 @@ Status insererEnTete(Liste* liste, const Info* info) {
 }
 
 Status insererEnQueue(Liste* liste, const Info* info) {
-	//vérifier si la tableau est vide ou non
-	//vérifier si la capacité permet un élément de plus
-	//return mémoire insuffisante
-	//pointer sur le dernier élément
-	//insérer l'élément suivant.
-	//return OK
 	Element* courant = (Element*) calloc(1, sizeof(Element));
 
 	if (!courant) return MEMOIRE_INSUFFISANTE;
@@ -87,10 +81,17 @@ Status insererEnQueue(Liste* liste, const Info* info) {
 Status supprimerEnTete(Liste* liste, Info* info) {
 	if (!liste->tete) return LISTE_VIDE;
 
+	//Change la tête de la liste au second élément (peut être NULL)
 	Element* element = liste->tete;
 	*info = element->info;
+
+	//Rédéfinit le 2ème maillon comme le premier
 	liste->tete = element->suivant;
-	liste->tete->precedent = NULL;
+	if (liste->tete) liste->tete->precedent = NULL;
+
+	// La liste pourrait être vide s'il n'y avait qu'un élément
+	if (!liste->tete) liste->queue = NULL;
+
 	free(element);
 	return OK;
 }
@@ -100,8 +101,14 @@ Status supprimerEnQueue(Liste* liste, Info* info) {
 
 	Element* element = liste->queue;
 	*info = element->info;
+
+	//Rédéfinit l'avant dernier maillon comme le dernier
 	liste->queue = element->precedent;
-	liste->queue->suivant = NULL;
+	if (liste->queue) liste->queue->suivant = NULL;
+
+	// La liste pourrait être vide s'il n'y avait qu'un élément
+	if (!liste->queue) liste->tete = NULL;
+
 	free(element);
 	return OK;
 }
