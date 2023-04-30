@@ -72,17 +72,20 @@ int main(void) {
 		Liste* liste = initialiser();
 		printf("\nTests insererEnTete()\n");
 		afficherForward(liste);
+
 		printf("insererEnTete 4\n");
 		assert(insererEnTete(liste, &chiffres[4]) == OK);
 		afficherForward(liste);
 		assert(liste->tete->info == 4);
 		assert(liste->queue->info == 4);
+
 		printf("insererEnTete 6\n");
 		insererEnTete(liste, &chiffres[6]);
 		assert(liste->tete->suivant != NULL);
 		afficherForward(liste);
 		assert(liste->tete->info == 6);
 		assert(liste->queue->info == 4);
+
 		printf("insererEnTete 9\n");
 		insererEnTete(liste, &chiffres[9]);
 		afficherForward(liste);
@@ -96,12 +99,14 @@ int main(void) {
 		Liste* liste = creerEtRemplirListe();
 		printf("\nTests insererEnQueue()\n");
 		afficherForward(liste);
+
 		printf("insererEnQueue 7\n");
 		assert(liste->queue->info == 8);
 		assert(insererEnQueue(liste, &chiffres[7]) == OK);
 		assert(liste->queue->info == 7);
 		assert(liste->queue->precedent != NULL);
 		afficherForward(liste);
+
 		printf("insererEnQueue 3\n");
 		insererEnQueue(liste, &chiffres[3]);
 		assert(liste->queue->info == 3);
@@ -119,6 +124,7 @@ int main(void) {
 		afficherForward(liste);
 		printf("Suppression...\n");
 		assert(liste->tete->info == 1);
+
 		assert(supprimerEnTete(liste, &valeurElement) == OK);
 		afficherForward(liste);
 		assert(longueur(liste) == 3);
@@ -142,6 +148,7 @@ int main(void) {
 		assert(liste->queue->info == 8);
 		afficherForward(liste);
 		printf("Suppression...\n");
+
 		assert(supprimerEnQueue(liste, &valeurElement) == OK);
 		afficherForward(liste);
 		assert(longueur(liste) == 3);
@@ -181,19 +188,21 @@ int main(void) {
 		afficherForward(liste1);
 		afficherForward(liste2);
 		assert(sontEgales(liste1, liste2));
-		vider(liste2, 22);//vider au dela de la taille
-		printf("Vidage au dela de la taille...\n");
+
+		printf("Vidage au-delà de la taille...\n");
+		vider(liste2, 22);
 		afficherForward(liste2);
 		//liste4 n'a pas changé -> toujours égal à liste3 :
 		assert(sontEgales(liste1, liste2));
 
 		printf("Vidage depuis la position 15...\n");
-		vider(liste2, 15);//vider la fin de la liste4
+		vider(liste2, 15);
 		afficherForward(liste2);
 		assert(liste2->queue->info == 14);
 		assert(sontEgales(liste1, liste2) == false);
+
 		printf("Vidage depuis la position 0 (tout)...\n");
-		vider(liste2, 0);//vider tout
+		vider(liste2, 0);
 		assert(estVide(liste2));
 		afficherForward(liste2);
 	}
