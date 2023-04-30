@@ -9,9 +9,17 @@
 		afficher(liste, FORWARD);                                                     \
 	} while (0)
 
+#define checkPointeur(liste)                                                        \
+	do {                                                                             \
+		if ((liste) == NULL) {                                                        \
+			printf("Erreur d'initialisation sur le pointeur %s...\n\n", #liste);       \
+			return EXIT_FAILURE;                                                       \
+		}                                                                             \
+	} while (0)
+
 // Critère pour supprimerSelonCritere pour retirer les valeurs paires
 //et celles en position < 4
-bool critere1(size_t position, const Info* info) {
+bool retirerNbsPairsEtPosInferieurA4(size_t position, const Info* info) {
 	return position < 4 || *info % 2 == 0;
 }
 
@@ -24,10 +32,7 @@ int main(void) {
 	// Tests initialisation
 	printf("Tests initialisation\n");
 	Liste* liste = initialiser();
-	if (!liste) {
-		printf("Erreur d'initialisation de liste");
-		return EXIT_FAILURE;
-	}
+	checkPointeur(liste);
 	afficherForward(liste);
 	printf("Longueur: %ld\n", longueur(liste));
 	assert(longueur(liste) == 0);
@@ -35,8 +40,9 @@ int main(void) {
 	assert(estVide(liste));
 
 	// Tests insererEnTete
+	printf("\nTests insererEnTete()\n");
 	afficherForward(liste);
-	printf("\ninsererEnTete 4\n");
+	printf("insererEnTete 4\n");
 	status = insererEnTete(liste, &chiffres[4]);
 	afficherForward(liste);
 	assert(status == OK);
@@ -58,7 +64,9 @@ int main(void) {
 	afficher(liste, BACKWARD);
 
 	// Tests insererEnQueue
-	printf("\ninsererEnQueue 7\n");
+	printf("\nTests insererEnQueue()\n");
+	afficherForward(liste);
+	printf("insererEnQueue 7\n");
 	assert(liste->queue->info == 4);
 	status = insererEnQueue(liste, &chiffres[7]);
 	assert(status == OK);
@@ -99,13 +107,9 @@ int main(void) {
 
 	//Tests que la suppression en tête ou en queue
 	//retourne l'exception LISTE_VIDE sur une liste vide
-	printf("\nTests supprimerEnTete et supprimerEnQueue sur liste vide\n");
+	printf("\nTests supprimerEnTete() et supprimerEnQueue() sur liste vide\n");
 	Liste* liste2 = initialiser();
-	if (!liste2) {
-		printf("Erreur d'initialisation de liste2");
-		return EXIT_FAILURE;
-	}
-	//TODO: transform to macro ? ^^
+	checkPointeur(liste2);
 	status = supprimerEnTete(liste2, &valeurElement);
 	assert(status == LISTE_VIDE);
 	status = supprimerEnQueue(liste2, &valeurElement);
@@ -147,7 +151,7 @@ int main(void) {
 			 "et celles en position < 4\n");
 	afficherForward(liste3);
 	printf("Supression à l'aide du critère...\n");
-	supprimerSelonCritere(liste3, &critere1);
+	supprimerSelonCritere(liste3, &retirerNbsPairsEtPosInferieurA4);
 	afficherForward(liste3);
 	assert(liste3->tete->info == 5);
 	assert(liste3->tete->suivant->info == 7);
@@ -159,12 +163,15 @@ int main(void) {
 	printf("\nTests supprimerSelonCritere() qui vide complètement la pile\n");
 	Liste* liste5 = initialiser();
 	insererEnQueue(liste5, &chiffres[3]);
-	supprimerSelonCritere(liste5, &critere1);//un seul élément à supprimer
+	supprimerSelonCritere(
+		liste5,
+		&retirerNbsPairsEtPosInferieurA4);//un seul élément à supprimer
 	assert(estVide(liste5));
 	Liste* liste6 = initialiser();
 	insererEnQueue(liste6, &chiffres[3]);
 	insererEnQueue(liste6, &chiffres[5]);
-	supprimerSelonCritere(liste6, &critere1);//2 éléments à supprimer
+	supprimerSelonCritere(liste6,
+								 &retirerNbsPairsEtPosInferieurA4);//2 éléments à supprimer
 	assert(estVide(liste6));
 
 	//Libère la mémoire pour toutes les listes
@@ -175,4 +182,5 @@ int main(void) {
 	free(liste5);
 	free(liste6);
 	printf("\nTous les tests passent !\n\n");
+	return EXIT_SUCCESS;
 }
