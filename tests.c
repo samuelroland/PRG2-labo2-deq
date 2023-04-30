@@ -26,8 +26,7 @@ bool retirerNbsPairsEtPosInferieurA4(size_t position, const Info* info) {
 int main(void) {
 	//Chiffres à passer par adresse dans les insertions
 	const Info chiffres[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	Status status;
-	Info valeurElement = 0;
+	Info valeurElement = 0;//valeur de l'élément retiré par suppression
 
 	// Tests initialisation
 	printf("Tests initialisation\n");
@@ -43,9 +42,8 @@ int main(void) {
 	printf("\nTests insererEnTete()\n");
 	afficherForward(liste);
 	printf("insererEnTete 4\n");
-	status = insererEnTete(liste, &chiffres[4]);
+	assert(insererEnTete(liste, &chiffres[4]) == OK);
 	afficherForward(liste);
-	assert(status == OK);
 	assert(liste->tete->info == 4);
 	assert(liste->queue->info == 4);
 	printf("insererEnTete 6\n");
@@ -68,8 +66,7 @@ int main(void) {
 	afficherForward(liste);
 	printf("insererEnQueue 7\n");
 	assert(liste->queue->info == 4);
-	status = insererEnQueue(liste, &chiffres[7]);
-	assert(status == OK);
+	assert(insererEnQueue(liste, &chiffres[7]) == OK);
 	assert(liste->queue->info == 7);
 	afficherForward(liste);
 	printf("insererEnQueue 3\n");
@@ -84,10 +81,9 @@ int main(void) {
 	// Tests supprimerEnTete
 	printf("\nTests supprimerEnTete()\n");
 	afficherForward(liste);
-	printf("Supression...\n");
+	printf("Suppression...\n");
 	assert(liste->tete->info == 9);
-	status = supprimerEnTete(liste, &valeurElement);
-	assert(status == OK);
+	assert(supprimerEnTete(liste, &valeurElement) == OK);
 	afficherForward(liste);
 	assert(longueur(liste) == 4);
 	assert(valeurElement == 9);
@@ -97,9 +93,8 @@ int main(void) {
 	printf("\nTests supprimerEnQueue()\n");
 	assert(liste->queue->info == 3);
 	afficherForward(liste);
-	printf("Supression...\n");
-	status = supprimerEnQueue(liste, &valeurElement);
-	assert(status == OK);
+	printf("Suppression...\n");
+	assert(supprimerEnQueue(liste, &valeurElement) == OK);
 	afficherForward(liste);
 	assert(longueur(liste) == 3);
 	assert(valeurElement == 3);
@@ -110,10 +105,8 @@ int main(void) {
 	printf("\nTests supprimerEnTete() et supprimerEnQueue() sur liste vide\n");
 	Liste* liste2 = initialiser();
 	checkPointeur(liste2);
-	status = supprimerEnTete(liste2, &valeurElement);
-	assert(status == LISTE_VIDE);
-	status = supprimerEnQueue(liste2, &valeurElement);
-	assert(status == LISTE_VIDE);
+	assert(supprimerEnTete(liste2, &valeurElement) == LISTE_VIDE);
+	assert(supprimerEnQueue(liste2, &valeurElement) == LISTE_VIDE);
 	afficherForward(liste2);
 
 
@@ -150,7 +143,7 @@ int main(void) {
 	printf("Appliquer critere1() pour retirer les valeurs paires "
 			 "et celles en position < 4\n");
 	afficherForward(liste3);
-	printf("Supression à l'aide du critère...\n");
+	printf("Suppression à l'aide du critère...\n");
 	supprimerSelonCritere(liste3, &retirerNbsPairsEtPosInferieurA4);
 	afficherForward(liste3);
 	assert(liste3->tete->info == 5);
