@@ -9,7 +9,8 @@
 		afficher(liste, FORWARD);                                                     \
 	} while (0)
 
-// Critère pour supprimerSelonCritere pour retirer les valeurs paires et celles en position < 4
+// Critère pour supprimerSelonCritere pour retirer les valeurs paires
+//et celles en position < 4
 bool critere1(size_t position, const Info* info) {
 	return position < 4 || *info % 2 == 0;
 }
@@ -34,13 +35,16 @@ int main(void) {
 	assert(estVide(liste));
 
 	// Tests insererEnTete
+	afficherForward(liste);
 	printf("\ninsererEnTete 4\n");
 	status = insererEnTete(liste, &chiffres[4]);
+	afficherForward(liste);
 	assert(status == OK);
 	assert(liste->tete->info == 4);
 	assert(liste->queue->info == 4);
 	printf("insererEnTete 6\n");
 	insererEnTete(liste, &chiffres[6]);
+	afficherForward(liste);
 	assert(liste->tete->info == 6);
 	assert(liste->queue->info == 4);
 	printf("insererEnTete 9\n");
@@ -50,7 +54,7 @@ int main(void) {
 
 	// Tests affichage FORWARD et BACKWARD
 	afficherForward(liste);
-	printf("Affichage BACKWARD: ");
+	printf("\nAffichage BACKWARD de 'liste': ");
 	afficher(liste, BACKWARD);
 
 	// Tests insererEnQueue
@@ -71,9 +75,12 @@ int main(void) {
 
 	// Tests supprimerEnTete
 	printf("\nTests supprimerEnTete()\n");
+	afficherForward(liste);
+	printf("Supression...\n");
 	assert(liste->tete->info == 9);
 	status = supprimerEnTete(liste, &valeurElement);
 	assert(status == OK);
+	afficherForward(liste);
 	assert(longueur(liste) == 4);
 	assert(valeurElement == 9);
 	assert(liste->tete->info == 6);
@@ -81,8 +88,11 @@ int main(void) {
 	// Tests supprimerEnQueue
 	printf("\nTests supprimerEnQueue()\n");
 	assert(liste->queue->info == 3);
+	afficherForward(liste);
+	printf("Supression...\n");
 	status = supprimerEnQueue(liste, &valeurElement);
 	assert(status == OK);
+	afficherForward(liste);
 	assert(longueur(liste) == 3);
 	assert(valeurElement == 3);
 	assert(liste->queue->info == 7);
@@ -96,10 +106,12 @@ int main(void) {
 		return EXIT_FAILURE;
 	}
 	//TODO: transform to macro ? ^^
-	status = supprimerEnQueue(liste2, &valeurElement);
-	assert(status == LISTE_VIDE);
 	status = supprimerEnTete(liste2, &valeurElement);
 	assert(status == LISTE_VIDE);
+	status = supprimerEnQueue(liste2, &valeurElement);
+	assert(status == LISTE_VIDE);
+	afficherForward(liste2);
+
 
 	printf("\nTests sontEgales() et vider()\n");
 	//Créer et initialiser deux listes avec les nombres 0 à 19
@@ -114,13 +126,17 @@ int main(void) {
 	afficherForward(liste4);
 	assert(sontEgales(liste3, liste4));
 	vider(liste4, 22);//vider au dela de la taille
+	printf("Vidage au dela de la taille...\n");
 	afficherForward(liste4);
 	//liste4 n'a pas changé -> toujours égal à liste3 :
 	assert(sontEgales(liste3, liste4));
+
+	printf("Vidage depuis la position 15...\n");
 	vider(liste4, 15);//vider la fin de la liste4
 	afficherForward(liste4);
 	assert(liste4->queue->info == 14);
 	assert(sontEgales(liste3, liste4) == false);
+	printf("Vidage depuis la position 0 (tout)...\n");
 	vider(liste4, 0);//vider tout
 	assert(estVide(liste4));
 	afficherForward(liste4);
@@ -129,14 +145,17 @@ int main(void) {
 	printf("\nTests supprimerSelonCritere()\n");
 	printf("Appliquer critere1() pour retirer les valeurs paires "
 			 "et celles en position < 4\n");
+	afficherForward(liste3);
+	printf("Supression à l'aide du critère...\n");
 	supprimerSelonCritere(liste3, &critere1);
+	afficherForward(liste3);
 	assert(liste3->tete->info == 5);
 	assert(liste3->tete->suivant->info == 7);
 	assert(liste3->tete->suivant->suivant->info == 9);
 	assert(liste3->queue->info == 19);
 	assert(longueur(liste3) == 8);
-	afficherForward(liste3);
 
+	//Tests plus avancés sur supprimerSelonCritere
 	printf("\nTests supprimerSelonCritere() qui vide complètement la pile\n");
 	Liste* liste5 = initialiser();
 	insererEnQueue(liste5, &chiffres[3]);
@@ -148,6 +167,12 @@ int main(void) {
 	supprimerSelonCritere(liste6, &critere1);//2 éléments à supprimer
 	assert(estVide(liste6));
 
-
+	//Libère la mémoire pour toutes les listes
+	free(liste);
+	free(liste2);
+	free(liste3);
+	free(liste4);
+	free(liste5);
+	free(liste6);
 	printf("\nTous les tests passent !\n\n");
 }
