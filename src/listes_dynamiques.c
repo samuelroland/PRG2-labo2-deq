@@ -81,3 +81,30 @@ Status insererEnQueue(Liste* liste, const Info* info) {
 
 	return OK;
 }
+
+Status supprimerEnTete(Liste* liste, Info* info) {
+	if (!liste->tete) return LISTE_VIDE;
+
+	Element* element = liste->tete;
+	*info = element->info;
+	liste->tete = element->suivant;
+	liste->tete->precedent = NULL;
+	free(element);
+	return OK;
+}
+
+Status supprimerEnQueue(Liste* liste, Info* info) {
+	if (!liste->queue) return LISTE_VIDE;
+
+	Element* element = liste->queue;
+	*info = element->info;
+	liste->queue = element->precedent;
+	liste->queue->suivant = NULL;
+	free(element);
+	return OK;
+}
+
+void supprimerSelonCritere(Liste* liste,
+									bool (*critere)(size_t position, const Info* info)) {}
+void vider(Liste* liste, size_t position) {}
+bool sontEgales(const Liste* liste1, const Liste* liste2) {}
