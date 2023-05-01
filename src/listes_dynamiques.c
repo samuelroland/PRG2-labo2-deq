@@ -184,20 +184,13 @@ void vider(Liste* liste, size_t position) {
 bool sontEgales(const Liste* liste1, const Liste* liste2) {
 	Element *courant1 = liste1->tete, *courant2 = liste2->tete;
 
-	while (courant1 || courant2) {
-		//Si l'un des pointeurs est vide, une des listes est plus courte que l'autre
-		// elles ne sont donc pas égales !
-		if ((!courant1 && courant2) || (courant1 && !courant2)) { return false; }
-
+	while (courant1 && courant2) {
 		//Compare les 2 valeurs sur le maillon courant des 2 listes
-		if (courant1->info != courant2->info) {
-			return false;
-			break;
-		}
+		if (courant1->info != courant2->info) { return false; }
 		courant1 = courant1->suivant;
 		courant2 = courant2->suivant;
 	}
-	//Si on arrive ici, toutes les valeurs sont bien identiques
-	// et les 2 listes ont la même longueur
-	return true;
+	//Si les 2 pointeurs sont vides une fois sorti du while, alors c'est égal
+	//Sinon signifie qu'une liste a les même élément mais qu'une est plus court
+	return !courant1 && !courant2;
 }
