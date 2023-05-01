@@ -37,6 +37,13 @@ Liste* creerEtRemplirListe(void) {
 	return liste;
 }
 
+//Permet de vider et libérer la mémoire pour une liste à la fin de chaque test
+#define viderEtLiberer(liste)                                                       \
+	do {                                                                             \
+		vider(liste, 0);                                                              \
+		free(liste);                                                                  \
+	} while (0)
+
 // Critère pour supprimerSelonCritere pour retirer les valeurs paires
 //et celles en position < 4
 bool retirerNbsPairsEtPosInferieurA4(size_t position, const Info* info) {
@@ -57,6 +64,8 @@ int main(void) {
 		assert(longueur(liste) == 0);
 		printf("estVide: %s\n", estVide(liste) ? "true" : "false");
 		assert(estVide(liste));
+
+		viderEtLiberer(liste);
 	}
 
 	/// Tests affichage FORWARD et BACKWARD
@@ -65,6 +74,7 @@ int main(void) {
 		printf("\nAffichage BACKWARD de 'liste': ");
 		afficher(liste, BACKWARD);
 		afficherForward(liste);
+		viderEtLiberer(liste);
 	}
 
 	/// Tests insererEnTete
@@ -91,6 +101,7 @@ int main(void) {
 		afficherForward(liste);
 		assert(liste->tete->info == 9);
 		assert(longueur(liste) == 3);
+		viderEtLiberer(liste);
 	}
 
 
@@ -115,6 +126,7 @@ int main(void) {
 		assert(longueur(liste) == 6);
 		printf("estVide: %s\n", estVide(liste) ? "true" : "false");
 		assert(estVide(liste) == false);
+		viderEtLiberer(liste);
 	}
 
 	/// Tests supprimerEnTete
@@ -139,6 +151,8 @@ int main(void) {
 		assert(supprimerEnTete(liste2, &valeurElement) == OK);
 		afficherForward(liste2);
 		assert(liste2->queue == NULL);
+		viderEtLiberer(liste);
+		viderEtLiberer(liste2);
 	}
 
 	/// Tests supprimerEnQueue
@@ -161,17 +175,20 @@ int main(void) {
 		insererEnQueue(liste2, &chiffres[4]);
 		assert(supprimerEnQueue(liste2, &valeurElement) == OK);
 		assert(liste2->tete == NULL);
+		viderEtLiberer(liste);
+		viderEtLiberer(liste2);
 	}
 
 	/// Tests que la suppression en tête ou en queue
 	/// retourne l'exception LISTE_VIDE sur une liste vide
 	{
 		printf("\nTests supprimerEnTete() et supprimerEnQueue() sur liste vide\n");
-		Liste* liste2 = initialiser();
-		checkPointeur(liste2);
-		assert(supprimerEnTete(liste2, &valeurElement) == LISTE_VIDE);
-		assert(supprimerEnQueue(liste2, &valeurElement) == LISTE_VIDE);
-		afficherForward(liste2);
+		Liste* liste = initialiser();
+		checkPointeur(liste);
+		assert(supprimerEnTete(liste, &valeurElement) == LISTE_VIDE);
+		assert(supprimerEnQueue(liste, &valeurElement) == LISTE_VIDE);
+		afficherForward(liste);
+		viderEtLiberer(liste);
 	}
 
 	/// Tests sontEgales et vider()
@@ -205,6 +222,8 @@ int main(void) {
 		vider(liste2, 0);
 		assert(estVide(liste2));
 		afficherForward(liste2);
+		viderEtLiberer(liste1);
+		viderEtLiberer(liste2);
 	}
 
 	/// Tests supprimerSelonCritere
@@ -223,6 +242,7 @@ int main(void) {
 		assert(liste->tete->suivant->suivant->info == 9);
 		assert(liste->queue->info == 19);
 		assert(longueur(liste) == 8);
+		viderEtLiberer(liste);
 	}
 
 	/// Tests que supprimerSelonCritere fonctionne si tous les éléments sont supprimés
@@ -241,6 +261,8 @@ int main(void) {
 			liste2,
 			&retirerNbsPairsEtPosInferieurA4);//2 éléments à supprimer
 		assert(estVide(liste2));
+		viderEtLiberer(liste1);
+		viderEtLiberer(liste2);
 	}
 
 	printf("\nTous les tests passent !\n\n");
