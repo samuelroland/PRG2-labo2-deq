@@ -60,7 +60,7 @@ int main(void) {
 		Liste* liste = initialiser();
 		checkPointeur(liste);
 		afficherForward(liste);
-		printf("Longueur: %ld\n", longueur(liste));
+		printf("Longueur: %zu\n", longueur(liste));
 		assert(longueur(liste) == 0);
 		printf("estVide: %s\n", estVide(liste) ? "true" : "false");
 		assert(estVide(liste));
@@ -122,7 +122,7 @@ int main(void) {
 		insererEnQueue(liste, &chiffres[3]);
 		assert(liste->queue->info == 3);
 		afficherForward(liste);
-		printf("Longueur: %ld\n", longueur(liste));
+		printf("Longueur: %zu\n", longueur(liste));
 		assert(longueur(liste) == 6);
 		printf("estVide: %s\n", estVide(liste) ? "true" : "false");
 		assert(estVide(liste) == false);
