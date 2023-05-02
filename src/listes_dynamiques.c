@@ -55,7 +55,7 @@ size_t longueur(const Liste* liste) {
 /**
  * Permet d'afficher le contenu de la liste
  * @param liste
- * @param Un mode FORWARD ou BACKWARD, qui permet le sens de la lecture de la liste
+ * @param Un mode FORWARD ou BACKWARD pour lire en avant ou en arrière
  */
 void afficher(const Liste* liste, Mode mode) {
 	printf("[");
@@ -74,7 +74,7 @@ void afficher(const Liste* liste, Mode mode) {
 /**
  * Insère un nouvel élément au début de la liste
  * @param liste
- * @param Info permet d'obtenir les informations de l'élément de la liste
+ * @param info - valeur à insérer dans la liste
  * @return OK si l'insertion s'est déroulée avec succès, sinon MEMOIRE_INSUFFISANTE
  */
 Status insererEnTete(Liste* liste, const Info* info) {
@@ -101,7 +101,7 @@ Status insererEnTete(Liste* liste, const Info* info) {
 /**
  * Insère un nouvel élément à la fin de la liste
  * @param liste
- * @param info renvoie l'info stockée dans l'élément en fin de liste
+ * @param info - valeur à insérer dans la liste
  * @return OK si l'insertion s'est déroulée avec succès, sinon MEMOIRE_INSUFFISANTE
  */
 Status insererEnQueue(Liste* liste, const Info* info) {
@@ -174,7 +174,8 @@ Status supprimerEnQueue(Liste* liste, Info* info) {
  * Supprime tous les éléments de la liste qui vérifient le critère passé en paramètre
  * tout en restituant la mémoire allouée.
  * @param liste
- * @param critere suppression selon cet élément.
+ * @param critere pointeur sur une fonction prenant la position et la valeur en paramètre 
+ * et retournant vrai si le critère passe sur cet élément
  */
 void supprimerSelonCritere(Liste* liste,
 									bool (*critere)(size_t position, const Info* info)) {
@@ -211,10 +212,10 @@ void supprimerSelonCritere(Liste* liste,
 }
 
 /**
- * Supprime tous les éléments de la liste à partir de la position position
+ * Supprime tous les éléments de la liste à partir de la position 'position'
  * tout en restituant la mémorie allouée.
  * @param liste
- * @param position supprime à partir de cet élément.
+ * @param position - position à partir duquel on supprime
  */
 void vider(Liste* liste, size_t position) {
 	//Ne rien faire si la liste est déjà vide
@@ -255,11 +256,11 @@ void vider(Liste* liste, size_t position) {
 }
 
 /**
- * Indique vrai si les 2 listes passées en paramètre sont égales
+ * Retourne vrai si les 2 listes passées en paramètre sont égales
  * donc avec les mêmes infos et le même ordre, faux sinon
  * @param liste1
  * @param liste2
- * @return Indique vrai si les 2 listes sont égales, sinon faux.
+ * @return Retourne vrai si les 2 listes sont égales, sinon faux.
  */
 bool sontEgales(const Liste* liste1, const Liste* liste2) {
 	Element *courant1 = liste1->tete, *courant2 = liste2->tete;

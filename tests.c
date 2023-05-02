@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Listes de chiffres à utiliser par adresse pour les insertions
 const Info chiffres[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 // Afficher la liste en mode FORWARD
@@ -47,7 +48,7 @@ const Info chiffres[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 /**
  * Permet de créer et remplir une liste pour les tests
- * @return la liste de test
+ * @return la liste remplie
  */
 Liste* creerEtRemplirListe(void) {
 	Liste* liste = initialiser();
