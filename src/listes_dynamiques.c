@@ -4,7 +4,7 @@
  Auteur(s)      : Samuel Roland, Nathan Rayburn, Leonard Klasen
  Date creation  : 27.04.2023
 
- Description    : Implémentation de la liste doublement chaînées
+ Description    : Implémentation de la liste doublement chaînée
 
  Remarque(s)    : -
 
@@ -74,7 +74,7 @@ void afficher(const Liste* liste, Mode mode) {
 /**
  * Insère un nouvel élément au début de la liste
  * @param liste
- * @param info - valeur à insérer dans la liste
+ * @param info: pointeur sur la valeur à insérer dans la liste
  * @return OK si l'insertion s'est déroulée avec succès, sinon MEMOIRE_INSUFFISANTE
  */
 Status insererEnTete(Liste* liste, const Info* info) {
@@ -101,7 +101,7 @@ Status insererEnTete(Liste* liste, const Info* info) {
 /**
  * Insère un nouvel élément à la fin de la liste
  * @param liste
- * @param info - valeur à insérer dans la liste
+ * @param info: pointeur sur la valeur à insérer dans la liste
  * @return OK si l'insertion s'est déroulée avec succès, sinon MEMOIRE_INSUFFISANTE
  */
 Status insererEnQueue(Liste* liste, const Info* info) {
@@ -126,7 +126,7 @@ Status insererEnQueue(Liste* liste, const Info* info) {
 /**
  * Supprime l'élément en tête de liste
  * @param liste
- * @param info renvoie l'info stockée dans l'élément en tête de liste
+ * @param info: renvoie l'info stockée dans l'élément en tête de liste
  * @return LISTE_VIDE si la liste passée en paramètre est vide, sinon OK
  */
 Status supprimerEnTete(Liste* liste, Info* info) {
@@ -150,7 +150,7 @@ Status supprimerEnTete(Liste* liste, Info* info) {
 /**
  * Supprime l'élément en fin de liste
  * @param liste
- * @param info renvoie l'info stockée dans l'élément en fin de liste
+ * @param info: renvoie l'info stockée dans l'élément en fin de liste
  * @return LISTE_VIDE si la liste passée en paramètre est vide, sinon OK
  */
 Status supprimerEnQueue(Liste* liste, Info* info) {
@@ -174,7 +174,7 @@ Status supprimerEnQueue(Liste* liste, Info* info) {
  * Supprime tous les éléments de la liste qui vérifient le critère passé en paramètre
  * tout en restituant la mémoire allouée.
  * @param liste
- * @param critere pointeur sur une fonction prenant la position et la valeur en paramètre 
+ * @param critere: pointeur sur une fonction prenant la position et la valeur en paramètre 
  * et retournant vrai si le critère passe sur cet élément
  */
 void supprimerSelonCritere(Liste* liste,
@@ -213,7 +213,7 @@ void supprimerSelonCritere(Liste* liste,
 
 /**
  * Supprime tous les éléments de la liste à partir de la position 'position'
- * tout en restituant la mémorie allouée.
+ * tout en restituant la mémoire allouée.
  * @param liste
  * @param position - position à partir duquel on supprime
  */
@@ -237,7 +237,7 @@ void vider(Liste* liste, size_t position) {
 			if (position == 0) {
 				liste->tete = NULL;
 				//La queue de la liste sera NULL à ce moment,
-				// pas besoin de a remettre à NULL
+				// pas besoin de la remettre à NULL
 			} else {
 				//S'il y a des éléments avant, définir le dernier maillon comme NULL
 				courant->precedent->suivant = NULL;
@@ -246,7 +246,7 @@ void vider(Liste* liste, size_t position) {
 		Element* prochain = courant->suivant;
 		free(courant);
 
-		//On définit seulement par par précaution la valeur precedent du prochain maillon s'il existe,
+		//On définit par précaution la valeur 'precedent' du prochain maillon s'il existe,
 		// même si ce prochain maillon sera supprimé au tour suivant.
 		if (prochain) prochain->precedent = NULL;
 
@@ -272,6 +272,6 @@ bool sontEgales(const Liste* liste1, const Liste* liste2) {
 		courant2 = courant2->suivant;
 	}
 	//Si les 2 pointeurs sont vides une fois sorti du while, alors c'est égal
-	//Sinon signifie qu'une liste a les même élément mais qu'une est plus court
+	//Sinon cela signifie qu'une liste a les mêmes éléments, mais qu'elle est plus courte
 	return !courant1 && !courant2;
 }

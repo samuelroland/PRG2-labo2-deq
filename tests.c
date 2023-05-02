@@ -5,7 +5,7 @@
  Date creation  : 27.04.2023
 
  Description    : Suite de tests sur l'implémentation de la liste doublement
-                  chaînées
+                  chaînée
 
  Remarque(s)    : -
 
@@ -263,7 +263,7 @@ int main(void) {
 		viderEtLiberer(liste);
 	}
 
-	/// Tests que supprimerSelonCritere fonctionne si tous les éléments sont supprimés
+	/// Tests que supprimerSelonCritere même si le critère supprime tous les éléments
 	{
 		printf("\nTests supprimerSelonCritere() qui vide complètement la pile\n");
 		Liste* liste1 = initialiser();
