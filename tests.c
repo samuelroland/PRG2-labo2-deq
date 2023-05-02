@@ -75,7 +75,7 @@ int main(void) {
 
 	/// Tests initialisation
 	{
-		printf("Tests initialisation\n");
+		printf("Tests initialiser()\n");
 		Liste* liste = initialiser();
 		checkPointeur(liste);
 		afficherForward(liste);
@@ -250,10 +250,9 @@ int main(void) {
 		Liste* liste = initialiser();
 		for (Info i = 0; i < 20; i++) { insererEnQueue(liste, &i); }
 		printf("\nTests supprimerSelonCritere()\n");
-		printf("Appliquer critere1() pour retirer les valeurs paires "
-				 "et celles en position < 4\n");
 		afficherForward(liste);
-		printf("Suppression à l'aide du critère...\n");
+		printf("Suppression à l'aide du critere1() pour retirer les valeurs paires "
+				 "et celles en position < 4\n");
 		supprimerSelonCritere(liste, &retirerNbsPairsEtPosInferieurA4);
 		afficherForward(liste);
 		assert(liste->tete->info == 5);
