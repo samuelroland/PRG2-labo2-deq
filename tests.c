@@ -1,3 +1,18 @@
+/*
+ -----------------------------------------------------------------------------------
+ Nom du fichier : tests.c
+ Auteur(s)      : Samuel Roland, Nathan Rayburn, Leonard Klasen
+ Date creation  : 27.04.2023
+
+ Description    : Suite de tests sur l'implémentation de la liste doublement
+                  chaînées
+
+ Remarque(s)    : -
+
+ Compilateur    : Mingw-w64 gcc 12.2.1
+ -----------------------------------------------------------------------------------
+*/
+
 #include "include/listes_dynamiques.h"
 #include <assert.h>
 #include <stdio.h>
@@ -30,7 +45,10 @@ const Info chiffres[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 		insererEnQueue(liste, &chiffres[8]);                                          \
 	} while (0)
 
-// Permet de créer et remplir une liste pour les tests
+/**
+ * Permet de créer et remplir une liste pour les tests
+ * @return la liste de test
+ */
 Liste* creerEtRemplirListe(void) {
 	Liste* liste = initialiser();
 	remplirListe(liste);

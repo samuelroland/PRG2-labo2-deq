@@ -1,7 +1,25 @@
+/*
+ -----------------------------------------------------------------------------------
+ Nom du fichier : listes_dynamiques.c
+ Auteur(s)      : Samuel Roland, Nathan Rayburn, Leonard Klasen
+ Date creation  : 27.04.2023
+
+ Description    : Implémentation de la liste doublement chaînées
+
+ Remarque(s)    : -
+
+ Compilateur    : Mingw-w64 gcc 12.2.1
+ -----------------------------------------------------------------------------------
+*/
+
 #include "../include/listes_dynamiques.h"
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Initialise la liste
+ * @return le pointeur sur la liste ou NULL en cas de mémoire insuffisante
+ */
 Liste* initialiser(void) {
 	Liste* ptr = (Liste*) calloc(1, sizeof(Liste));
 	if (!ptr) return NULL;
@@ -10,10 +28,20 @@ Liste* initialiser(void) {
 	return ptr;
 }
 
+/**
+ * Retourne vrai si la liste est vide, faux sinon
+ * @param liste
+ * @return vrai si la liste est vide, faux sinon
+ */
 bool estVide(const Liste* liste) {
 	return liste->tete == NULL && liste->queue == NULL;
 }
 
+/**
+ * Parcours la liste pour calculer sa longueur
+ * @param liste
+ * @return la longueur de la liste
+ */
 size_t longueur(const Liste* liste) {
 	Element* courant = liste->tete;
 	size_t longueur = 0;
@@ -24,6 +52,11 @@ size_t longueur(const Liste* liste) {
 	return longueur;
 }
 
+/**
+ * Permet d'afficher le contenu de la liste
+ * @param liste
+ * @param Un mode FORWARD ou BACKWARD, qui permet le sens de la lecture de la liste
+ */
 void afficher(const Liste* liste, Mode mode) {
 	printf("[");
 	//Prendre le premier ou dernier élément
@@ -38,6 +71,12 @@ void afficher(const Liste* liste, Mode mode) {
 	printf("]\n");
 }
 
+/**
+ * Insère un nouvel élément au début de la liste
+ * @param liste
+ * @param Info permet d'obtenir les informations de l'élément de la liste
+ * @return OK si l'insertion s'est déroulée avec succès, sinon MEMOIRE_INSUFFISANTE
+ */
 Status insererEnTete(Liste* liste, const Info* info) {
 	Element* courant = (Element*) calloc(1, sizeof(Element));
 
@@ -59,6 +98,12 @@ Status insererEnTete(Liste* liste, const Info* info) {
 	return OK;
 }
 
+/**
+ * Insère un nouvel élément à la fin de la liste
+ * @param liste
+ * @param info renvoie l'info stockée dans l'élément en fin de liste
+ * @return OK si l'insertion s'est déroulée avec succès, sinon MEMOIRE_INSUFFISANTE
+ */
 Status insererEnQueue(Liste* liste, const Info* info) {
 	Element* courant = (Element*) calloc(1, sizeof(Element));
 
@@ -78,6 +123,12 @@ Status insererEnQueue(Liste* liste, const Info* info) {
 	return OK;
 }
 
+/**
+ * Supprime l'élément en tête de liste
+ * @param liste
+ * @param info renvoie l'info stockée dans l'élément en tête de liste
+ * @return LISTE_VIDE si la liste passée en paramètre est vide, sinon OK
+ */
 Status supprimerEnTete(Liste* liste, Info* info) {
 	if (!liste->tete) return LISTE_VIDE;
 
@@ -96,6 +147,12 @@ Status supprimerEnTete(Liste* liste, Info* info) {
 	return OK;
 }
 
+/**
+ * Supprime l'élément en fin de liste
+ * @param liste
+ * @param info renvoie l'info stockée dans l'élément en fin de liste
+ * @return LISTE_VIDE si la liste passée en paramètre est vide, sinon OK
+ */
 Status supprimerEnQueue(Liste* liste, Info* info) {
 	if (!liste->queue) return LISTE_VIDE;
 
@@ -113,6 +170,12 @@ Status supprimerEnQueue(Liste* liste, Info* info) {
 	return OK;
 }
 
+/**
+ * Supprime tous les éléments de la liste qui vérifient le critère passé en paramètre
+ * tout en restituant la mémoire allouée.
+ * @param liste
+ * @param critere suppression selon cet élément.
+ */
 void supprimerSelonCritere(Liste* liste,
 									bool (*critere)(size_t position, const Info* info)) {
 	//Ne rien faire si la liste est déjà vide
@@ -147,6 +210,12 @@ void supprimerSelonCritere(Liste* liste,
 	}
 }
 
+/**
+ * Supprime tous les éléments de la liste à partir de la position position
+ * tout en restituant la mémorie allouée.
+ * @param liste
+ * @param position supprime à partir de cet élément.
+ */
 void vider(Liste* liste, size_t position) {
 	//Ne rien faire si la liste est déjà vide
 	if (!liste->tete) return;
@@ -181,6 +250,13 @@ void vider(Liste* liste, size_t position) {
 	}
 }
 
+/**
+ * Indique vrai si les 2 listes passées en paramètre sont égales
+ * donc avec les mêmes infos et le même ordre, faux sinon
+ * @param liste1
+ * @param liste2
+ * @return Indique vrai si les 2 listes sont égales, sinon faux.
+ */
 bool sontEgales(const Liste* liste1, const Liste* liste2) {
 	Element *courant1 = liste1->tete, *courant2 = liste2->tete;
 
