@@ -244,7 +244,11 @@ void vider(Liste* liste, size_t position) {
 		}
 		Element* prochain = courant->suivant;
 		free(courant);
-		if (prochain) prochain->precedent = NULL;//TODO: est-ce utile ?
+
+		//On définit seulement par par précaution la valeur precedent du prochain maillon s'il existe,
+		// même si ce prochain maillon sera supprimé au tour suivant.
+		if (prochain) prochain->precedent = NULL;
+
 		courant = prochain;
 		index++;
 	}
