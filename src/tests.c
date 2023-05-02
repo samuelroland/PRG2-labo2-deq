@@ -13,7 +13,7 @@
  -----------------------------------------------------------------------------------
 */
 
-#include "include/listes_dynamiques.h"
+#include "listes_dynamiques.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
